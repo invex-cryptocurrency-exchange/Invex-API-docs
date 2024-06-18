@@ -1,0 +1,1388 @@
+openapi: 3.0.3
+info:
+  title: مستندات فنی سرویس معامله‌ی اینوکس
+  description: |-
+     توضیحات کوتاهی اینجا قرار میگیره
+  termsOfService: https://invex.ir/help/
+  contact:
+    email: info@invex.ir
+  version: 1.0.0
+externalDocs:
+  description: Postman Collection
+  url: https://documenter.getpostman.com/view/29635700/2sA2r813me
+servers:
+  - url: https://sandbox.invex.ir
+  - description: sandbox url
+  - url: https://invex.ir
+  - description: main url
+paths:
+  /trading/v1/orders:
+    get:
+      tags:
+        - TRADING_API
+      summary: Search Orders
+      operationId: search_orders_trading_v1_orders_get
+      security:
+        - APIKeyHeader: []
+      parameters:
+        - name: expire_at
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: string
+                format: date-time
+              - type: 'null'
+            title: Expire At
+        - name: signature
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: string
+              - type: 'null'
+            title: Signature
+        - name: symbol
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - $ref: '#/components/schemas/MarketType'
+              - type: 'null'
+            title: Symbol
+        - name: start_at
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: string
+                format: date-time
+              - type: 'null'
+            title: Start At
+        - name: end_at
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: string
+                format: date-time
+              - type: 'null'
+            title: End At
+        - name: side
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - $ref: '#/components/schemas/OrderSideType'
+              - type: 'null'
+            title: Side
+        - name: status
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - $ref: '#/components/schemas/OrderDestinyType'
+              - type: 'null'
+            title: Status
+        - name: type
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - $ref: '#/components/schemas/OrderClassType'
+              - type: 'null'
+            title: Type
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+            title: Page
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: integer
+                maximum: 100
+              - type: 'null'
+            default: 10
+            title: Page Size
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradingAPISearchOrdersOutputDTOV1'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+        - TRADING_API
+      summary: Create Order
+      operationId: create_order_trading_v1_orders_post
+      security:
+        - APIKeyHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TradingAPIOrderCommandInputDTOV1'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradingAPICreateOrderCommandOutputDTOV1'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+        - TRADING_API
+      summary: Create Cancel Order Command
+      operationId: create_cancel_order_command_trading_v1_orders_delete
+      security:
+        - APIKeyHeader: []
+      parameters:
+        - name: expire_at
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: string
+                format: date-time
+              - type: 'null'
+            title: Expire At
+        - name: signature
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: string
+              - type: 'null'
+            title: Signature
+        - name: order_id
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: string
+                format: uuid
+              - type: 'null'
+            title: Order Id
+        - name: client_order_id
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: string
+              - type: 'null'
+            title: Client Order Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradingAPICreateCancelOrderCommandOutputDTOV1'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /trading/v1/order:
+    get:
+      tags:
+        - TRADING_API
+      summary: Get Order
+      operationId: get_order_trading_v1_order_get
+      security:
+        - APIKeyHeader: []
+      parameters:
+        - name: expire_at
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: string
+                format: date-time
+              - type: 'null'
+            title: Expire At
+        - name: signature
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: string
+              - type: 'null'
+            title: Signature
+        - name: order_id
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: string
+                format: uuid
+              - type: 'null'
+            title: Order Id
+        - name: client_order_id
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: string
+              - type: 'null'
+            title: Client Order Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradingAPIGetOrderOutputDTOV1'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /trading/v1/markets:
+    get:
+      tags:
+        - TRADING_API
+      summary: Get Trading Rules
+      operationId: get_trading_rules_trading_v1_markets_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradingAPISearchMarketConfigsOutputDTOV1'
+  /trading/v1/market-depth:
+    get:
+      tags:
+        - TRADING_API
+      summary: Get Order Book
+      operationId: get_order_book_trading_v1_market_depth_get
+      parameters:
+        - name: symbol
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/MarketType'
+        - name: depth
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/TradingAPIMarketDepthTypeV1'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradingAPIGetMarketDepthOutputDTOV1'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /trading/v1/accounts:
+    get:
+      tags:
+        - TRADING_API
+      summary: Get Account Balance
+      operationId: get_account_balance_trading_v1_accounts_get
+      security:
+        - APIKeyHeader: []
+      parameters:
+        - name: currency
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/CurrencyType'
+        - name: expire_at
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: string
+                format: date-time
+              - type: 'null'
+            title: Expire At
+        - name: signature
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: string
+              - type: 'null'
+            title: Signature
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradingAPIGetAccountOutputDTOV1'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /trading/v1/crypto-withdrawals:
+    post:
+      tags:
+        - TRADING_API
+      summary: Create Crypto Withdraw
+      operationId: create_crypto_withdraw_trading_v1_crypto_withdrawals_post
+      security:
+        - APIKeyHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TradingApiCreateCryptoWithdrawalInputDTOV1'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradingApiCreateCryptoWithdrawalOutputDTOV1'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    BaseMarketDTO:
+      properties:
+        code:
+          type: string
+          title: Code
+        base_currency_type:
+          $ref: '#/components/schemas/CurrencyType'
+        quote_currency_type:
+          $ref: '#/components/schemas/CurrencyType'
+      type: object
+      required:
+        - code
+        - base_currency_type
+        - quote_currency_type
+      title: BaseMarketDTO
+    CurrencyType:
+      type: string
+      enum:
+        - ADA
+        - BNB
+        - BTC
+        - DOGE
+        - ETH
+        - FTM
+        - IRR
+        - LTC
+        - SHIB
+        - SOL
+        - TRX
+        - USDT
+        - MATIC
+        - DOT
+        - BCH
+        - LINK
+        - XRP
+        - UNI
+        - APE
+        - AVAX
+        - FIL
+        - ETC
+        - SAND
+        - MANA
+        - ATOM
+        - NEAR
+        - AAVE
+        - EOS
+        - CHZ
+        - AXS
+        - MKR
+        - XLM
+        - USDC
+        - BUSD
+        - EGLD
+        - ARB
+        - GRT
+        - DAI
+        - LDO
+        - QNT
+        - CRO
+        - ALGO
+        - TON
+        - XMR
+        - APT
+        - USDP
+        - OP
+        - HBAR
+        - WBTC
+        - TUSD
+        - LEO
+        - MNT
+        - XTZ
+        - IMX
+        - THETA
+        - INJ
+        - RNDR
+        - SNX
+        - KAVA
+        - XEC
+        - PAXG
+        - XAUt
+        - FLOW
+        - RPL
+        - KCS
+        - ZEC
+        - CFX
+        - IOTA
+        - HT
+        - FXS
+        - CRV
+        - BTT
+        - GT
+        - GALA
+        - TWT
+        - GMX
+        - NEXO
+        - COMP
+        - NFT
+        - DYDX
+        - GUSD
+        - WOO
+        - ROSE
+        - GNO
+        - BAT
+        - INCH
+        - ZIL
+        - CAKE
+        - PEPE
+        - ELF
+        - SFP
+        - LRC
+        - GMT
+        - YFI
+        - MASK
+        - BAL
+        - LPT
+        - ENS
+        - SUSHI
+        - API3
+        - ONE
+        - GLM
+        - CVC
+        - DAO
+        - NMR
+        - SNT
+        - ANT
+        - ZRX
+        - SLP
+        - BLUR
+        - FLOKI
+        - BABYDOGE
+        - CELR
+        - T
+        - MAGIC
+        - BAND
+        - CVX
+        - SSV
+        - MDT
+        - OMG
+        - WLD
+        - RDNT
+        - JST
+      title: CurrencyType
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    MarketConfigDTOV1:
+      properties:
+        symbol:
+          anyOf:
+            - $ref: '#/components/schemas/BaseMarketDTO'
+            - $ref: '#/components/schemas/MarketType'
+          title: Symbol
+        tick_size:
+          type: string
+          title: Tick Size
+        amount_step_size:
+          type: string
+          title: Amount Step Size
+        minimum_limit_order_value:
+          type: string
+          title: Minimum Limit Order Value
+        maximum_limit_order_value:
+          anyOf:
+            - type: string
+              gt: 0
+            - type: 'null'
+          title: Maximum Limit Order Value
+      type: object
+      required:
+        - symbol
+        - tick_size
+        - amount_step_size
+        - minimum_limit_order_value
+      title: MarketConfigDTOV1
+    MarketType:
+      type: string
+      enum:
+        - ADA_IRR
+        - ADA_USDT
+        - BNB_IRR
+        - BNB_USDT
+        - BTC_IRR
+        - BTC_USDT
+        - DOGE_IRR
+        - DOGE_USDT
+        - ETH_IRR
+        - ETH_USDT
+        - FTM_IRR
+        - FTM_USDT
+        - LTC_IRR
+        - LTC_USDT
+        - SHIB_IRR
+        - SHIB_USDT
+        - SOL_IRR
+        - SOL_USDT
+        - TRX_IRR
+        - TRX_USDT
+        - USDT_IRR
+        - MATIC_IRR
+        - MATIC_USDT
+        - DOT_IRR
+        - DOT_USDT
+        - BCH_IRR
+        - BCH_USDT
+        - LINK_IRR
+        - LINK_USDT
+        - XRP_IRR
+        - XRP_USDT
+        - UNI_IRR
+        - UNI_USDT
+        - APE_IRR
+        - APE_USDT
+        - AVAX_IRR
+        - AVAX_USDT
+        - ETC_IRR
+        - ETC_USDT
+        - FIL_IRR
+        - FIL_USDT
+        - SAND_IRR
+        - SAND_USDT
+        - MANA_IRR
+        - MANA_USDT
+        - ATOM_IRR
+        - ATOM_USDT
+        - NEAR_IRR
+        - NEAR_USDT
+        - AAVE_IRR
+        - AAVE_USDT
+        - EOS_IRR
+        - EOS_USDT
+        - CHZ_IRR
+        - CHZ_USDT
+        - AXS_IRR
+        - AXS_USDT
+        - MKR_IRR
+        - MKR_USDT
+        - USDC_IRR
+        - USDC_USDT
+        - XLM_IRR
+        - XLM_USDT
+        - BUSD_IRR
+        - BUSD_USDT
+        - EGLD_IRR
+        - EGLD_USDT
+        - ARB_IRR
+        - ARB_USDT
+        - GRT_IRR
+        - GRT_USDT
+        - DAI_IRR
+        - DAI_USDT
+        - LDO_IRR
+        - LDO_USDT
+        - QNT_IRR
+        - QNT_USDT
+        - CRO_IRR
+        - CRO_USDT
+        - ALGO_IRR
+        - ALGO_USDT
+        - XMR_IRR
+        - XMR_USDT
+        - APT_IRR
+        - APT_USDT
+        - OP_IRR
+        - OP_USDT
+        - HBAR_IRR
+        - HBAR_USDT
+        - WBTC_IRR
+        - WBTC_USDT
+        - TUSD_IRR
+        - TUSD_USDT
+        - LEO_IRR
+        - LEO_USDT
+        - TON_IRR
+        - TON_USDT
+        - MNT_IRR
+        - MNT_USDT
+        - XTZ_IRR
+        - XTZ_USDT
+        - IMX_IRR
+        - IMX_USDT
+        - THETA_IRR
+        - THETA_USDT
+        - INJ_IRR
+        - INJ_USDT
+        - RNDR_IRR
+        - RNDR_USDT
+        - SNX_IRR
+        - SNX_USDT
+        - KAVA_IRR
+        - KAVA_USDT
+        - XEC_IRR
+        - XEC_USDT
+        - USDP_IRR
+        - USDP_USDT
+        - PAXG_IRR
+        - PAXG_USDT
+        - XAUt_IRR
+        - XAUt_USDT
+        - FLOW_IRR
+        - FLOW_USDT
+        - RPL_IRR
+        - RPL_USDT
+        - KCS_IRR
+        - KCS_USDT
+        - ZEC_IRR
+        - ZEC_USDT
+        - CFX_IRR
+        - CFX_USDT
+        - IOTA_IRR
+        - IOTA_USDT
+        - HT_IRR
+        - HT_USDT
+        - FXS_IRR
+        - FXS_USDT
+        - CRV_IRR
+        - CRV_USDT
+        - BTT_IRR
+        - BTT_USDT
+        - GT_IRR
+        - GT_USDT
+        - GALA_IRR
+        - GALA_USDT
+        - TWT_IRR
+        - TWT_USDT
+        - GMX_IRR
+        - GMX_USDT
+        - NEXO_IRR
+        - NEXO_USDT
+        - COMP_IRR
+        - COMP_USDT
+        - NFT_IRR
+        - NFT_USDT
+        - DYDX_IRR
+        - DYDX_USDT
+        - GUSD_IRR
+        - GUSD_USDT
+        - WOO_IRR
+        - WOO_USDT
+        - ROSE_IRR
+        - ROSE_USDT
+        - GNO_IRR
+        - GNO_USDT
+        - BAT_IRR
+        - BAT_USDT
+        - INCH_IRR
+        - INCH_USDT
+        - ZIL_IRR
+        - ZIL_USDT
+        - CAKE_IRR
+        - CAKE_USDT
+        - PEPE_IRR
+        - PEPE_USDT
+        - ELF_IRR
+        - ELF_USDT
+        - SFP_IRR
+        - SFP_USDT
+        - LRC_IRR
+        - LRC_USDT
+        - GMT_IRR
+        - GMT_USDT
+        - YFI_IRR
+        - YFI_USDT
+        - MASK_IRR
+        - MASK_USDT
+        - BAL_IRR
+        - BAL_USDT
+        - LPT_IRR
+        - LPT_USDT
+        - ENS_IRR
+        - ENS_USDT
+        - SUSHI_IRR
+        - SUSHI_USDT
+        - API3_IRR
+        - API3_USDT
+        - ONE_IRR
+        - ONE_USDT
+        - GLM_IRR
+        - GLM_USDT
+        - CVC_IRR
+        - CVC_USDT
+        - DAO_IRR
+        - DAO_USDT
+        - NMR_IRR
+        - NMR_USDT
+        - SNT_IRR
+        - SNT_USDT
+        - ANT_IRR
+        - ANT_USDT
+        - ZRX_IRR
+        - ZRX_USDT
+        - SLP_IRR
+        - SLP_USDT
+        - BLUR_IRR
+        - BLUR_USDT
+        - FLOKI_IRR
+        - FLOKI_USDT
+        - BABYDOGE_IRR
+        - BABYDOGE_USDT
+        - CELR_IRR
+        - CELR_USDT
+        - T_IRR
+        - T_USDT
+        - MAGIC_IRR
+        - MAGIC_USDT
+        - BAND_IRR
+        - BAND_USDT
+        - CVX_IRR
+        - CVX_USDT
+        - SSV_IRR
+        - SSV_USDT
+        - MDT_IRR
+        - MDT_USDT
+        - OMG_IRR
+        - OMG_USDT
+        - WLD_IRR
+        - WLD_USDT
+        - RDNT_IRR
+        - RDNT_USDT
+        - JST_IRR
+        - JST_USDT
+      title: MarketType
+    NetworkCurrencyType:
+      type: string
+      enum:
+        - ADA_ON_BSC
+        - BNB_ON_BSC
+        - BTC_ON_BTC
+        - DOGE_ON_DOGE
+        - ETH_ON_ETH
+        - FTM_ON_BSC
+        - LTC_ON_BSC
+        - SHIB_ON_ETH
+        - SOL_ON_BSC
+        - TRX_ON_TRX
+        - USDT_ON_TRX
+        - MATIC_ON_POLYGON
+        - DOT_ON_BSC
+        - BCH_ON_BSC
+        - LINK_ON_BSC
+        - XRP_ON_XRP
+        - UNI_ON_BSC
+        - APE_ON_ETH
+        - APE_ON_BSC
+        - AVAX_ON_BSC
+        - ETC_ON_BSC
+        - FIL_ON_BSC
+        - SAND_ON_ETH
+        - MANA_ON_ETH
+        - ADA_ON_CARDANO
+        - ATOM_ON_BSC
+        - NEAR_ON_BSC
+        - AAVE_ON_BSC
+        - EOS_ON_BSC
+        - CHZ_ON_ETH
+        - MKR_ON_BSC
+        - USDC_ON_BSC
+        - USDT_ON_BSC
+        - USDT_ON_ETH
+        - USDT_ON_POLYGON
+        - BTC_ON_BSC
+        - BTC_ON_ETH
+        - ETH_ON_BSC
+        - BNB_ON_ETH
+        - XRP_ON_BSC
+        - LTC_ON_LITECOIN
+        - DOT_ON_POLKADOT
+        - MATIC_ON_ETH
+        - BCH_ON_BCH
+        - LINK_ON_ETH
+        - XLM_ON_STELLAR
+        - AVAX_ON_AVALANCHE
+        - BUSD_ON_BSC
+        - FIL_ON_FILECOIN
+        - EGLD_ON_BSC
+        - EGLD_ON_MULTIVERSX
+        - SOL_ON_SOLANA
+        - ATOM_ON_COSMOS
+        - ARB_ON_ETH
+        - ARB_ON_ARBITRUM
+        - ETH_ON_ARBITRUM
+        - NEAR_ON_NEAR
+        - GRT_ON_ETH
+        - AAVE_ON_ETH
+        - EOS_ON_EOS
+        - DAI_ON_BSC
+        - DAI_ON_ETH
+        - LDO_ON_BSC
+        - LDO_ON_ETH
+        - QNT_ON_ETH
+        - CRO_ON_ETH
+        - ALGO_ON_ALGORAND
+        - TON_ON_BSC
+        - TON_ON_ETH
+        - TON_ON_TON
+        - XMR_ON_MONERO
+        - APT_ON_APTOS
+        - USDP_ON_BSC
+        - USDP_ON_ETH
+        - OP_ON_OPTIMISM
+        - ETH_ON_OPTIMISM
+        - HBAR_ON_HEDERA
+        - WBTC_ON_ETH
+        - TUSD_ON_ETH
+        - TUSD_ON_BSC
+        - LEO_ON_ETH
+        - MNT_ON_ETH
+        - MKR_ON_ETH
+        - AXS_ON_BSC
+        - AXS_ON_ETH
+        - XTZ_ON_BSC
+        - IMX_ON_ETH
+        - THETA_ON_ETH
+        - INJ_ON_ETH
+        - INJ_ON_BSC
+        - RNDR_ON_ETH
+        - RNDR_ON_POLYGON
+        - SNX_ON_ETH
+        - SNX_ON_BSC
+        - KAVA_ON_ETH
+        - KAVA_ON_BSC
+        - CHZ_ON_BSC
+        - XEC_ON_BSC
+        - PAXG_ON_ETH
+        - XAUt_ON_ETH
+        - FLOW_ON_ETH
+        - FLOW_ON_FLOW
+        - RPL_ON_ETH
+        - KCS_ON_ETH
+        - ZEC_ON_BSC
+        - CFX_ON_BSC
+        - IOTA_ON_BSC
+        - HT_ON_ETH
+        - FXS_ON_ETH
+        - CRV_ON_ETH
+        - BTT_ON_TRX
+        - GT_ON_ETH
+        - GALA_ON_ETH
+        - TWT_ON_BSC
+        - GMX_ON_AVALANCHE
+        - GMX_ON_ARBITRUM
+        - NEXO_ON_ETH
+        - COMP_ON_ETH
+        - NFT_ON_TRX
+        - DYDX_ON_ETH
+        - GUSD_ON_ETH
+        - WOO_ON_ETH
+        - ROSE_ON_ETH
+        - GNO_ON_ETH
+        - BAT_ON_ETH
+        - BAT_ON_BSC
+        - INCH_ON_ETH
+        - INCH_ON_BSC
+        - ZIL_ON_BSC
+        - CAKE_ON_ETH
+        - CAKE_ON_BSC
+        - PEPE_ON_ETH
+        - ELF_ON_ETH
+        - SFP_ON_ETH
+        - SFP_ON_BSC
+        - LRC_ON_ETH
+        - GMT_ON_BSC
+        - YFI_ON_ETH
+        - YFI_ON_BSC
+        - MASK_ON_ETH
+        - MASK_ON_BSC
+        - BAL_ON_ETH
+        - LPT_ON_ETH
+        - ENS_ON_ETH
+        - SUSHI_ON_ETH
+        - API3_ON_ETH
+        - ONE_ON_HARMONY
+        - GLM_ON_ETH
+        - CVC_ON_ETH
+        - DAO_ON_ETH
+        - NMR_ON_ETH
+        - SNT_ON_ETH
+        - ANT_ON_ETH
+        - ZRX_ON_ETH
+        - SLP_ON_ETH
+        - BLUR_ON_ETH
+        - FLOKI_ON_BSC
+        - BABYDOGE_ON_BSC
+        - CELR_ON_ETH
+        - T_ON_ETH
+        - MAGIC_ON_ARBITRUM
+        - BAND_ON_ETH
+        - CVX_ON_ETH
+        - SSV_ON_ETH
+        - MDT_ON_ETH
+        - OMG_ON_ETH
+        - WLD_ON_ETH
+        - RDNT_ON_ARBITRUM
+        - JST_ON_TRX
+      title: NetworkCurrencyType
+    OrderClassType:
+      type: string
+      enum:
+        - LIMIT
+        - MARKET
+      title: OrderClassType
+    OrderDTOV1:
+      properties:
+        depth:
+          type: integer
+          title: Depth
+        price:
+          type: string
+          title: Price
+        quantity:
+          type: string
+          title: Quantity
+      type: object
+      required:
+        - depth
+        - price
+        - quantity
+      title: OrderDTOV1
+    OrderDestinyType:
+      type: string
+      enum:
+        - NOT_FILLED
+        - FULL_FILLED
+        - CANCELED_BY_USER
+        - CANCELED_BY_SYSTEM
+        - INACTIVE
+      title: OrderDestinyType
+    OrderSideType:
+      type: string
+      enum:
+        - BUYER
+        - SELLER
+      title: OrderSideType
+    OrderTimeInForceType:
+      const: GTC
+      title: OrderTimeInForceType
+    TradePositionType:
+      type: string
+      enum:
+        - MAKER
+        - TAKER
+      title: TradePositionType
+    TradingAPICreateCancelOrderCommandOutputDTOV1:
+      properties:
+        cancel_order_id:
+          type: string
+          format: uuid
+          title: Cancel Order Id
+      type: object
+      required:
+        - cancel_order_id
+      title: TradingAPICreateCancelOrderCommandOutputDTOV1
+    TradingAPICreateOrderCommandOutputDTOV1:
+      properties:
+        order_id:
+          type: string
+          format: uuid
+          title: Order Id
+      type: object
+      required:
+        - order_id
+      title: TradingAPICreateOrderCommandOutputDTOV1
+    TradingAPIGetAccountOutputDTOV1:
+      properties:
+        currency:
+          $ref: '#/components/schemas/CurrencyType'
+        available:
+          type: string
+          title: Available
+        blocked:
+          type: string
+          title: Blocked
+        total:
+          type: string
+          title: Total
+      type: object
+      required:
+        - currency
+        - available
+        - blocked
+        - total
+      title: TradingAPIGetAccountOutputDTOV1
+    TradingAPIGetMarketDepthOutputDTOV1:
+      properties:
+        ask_orders:
+          items:
+            $ref: '#/components/schemas/OrderDTOV1'
+          type: array
+          title: Ask Orders
+        bid_orders:
+          items:
+            $ref: '#/components/schemas/OrderDTOV1'
+          type: array
+          title: Bid Orders
+      type: object
+      required:
+        - ask_orders
+        - bid_orders
+      title: TradingAPIGetMarketDepthOutputDTOV1
+    TradingAPIGetOrderOutputDTOV1:
+      properties:
+        order_id:
+          type: string
+          format: uuid
+          title: Order Id
+        symbol:
+          anyOf:
+            - $ref: '#/components/schemas/BaseMarketDTO'
+            - $ref: '#/components/schemas/MarketType'
+          title: Symbol
+        status:
+          $ref: '#/components/schemas/OrderDestinyType'
+        type:
+          $ref: '#/components/schemas/OrderClassType'
+        side:
+          $ref: '#/components/schemas/OrderSideType'
+        price:
+          type: string
+          title: Price
+        quantity:
+          type: string
+          title: Quantity
+        deal_quantity:
+          type: string
+          title: Deal Quantity
+        time_in_force:
+          $ref: '#/components/schemas/OrderTimeInForceType'
+        client_order_id:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Client Order Id
+        cancel_order_id:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: 'null'
+          title: Cancel Order Id
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+        trades:
+          anyOf:
+            - items:
+                $ref: '#/components/schemas/TradingAPIOrdersTrade'
+              type: array
+            - type: 'null'
+          title: Trades
+      type: object
+      required:
+        - order_id
+        - symbol
+        - status
+        - type
+        - side
+        - price
+        - quantity
+        - deal_quantity
+        - time_in_force
+        - created_at
+        - updated_at
+      title: TradingAPIGetOrderOutputDTOV1
+    TradingAPIMarketDepthTypeV1:
+      type: string
+      enum:
+        - '5'
+        - '20'
+        - '50'
+      title: TradingAPIMarketDepthTypeV1
+    TradingAPIOrderCommandInputDTOV1:
+      properties:
+        expire_at:
+          type: string
+          format: date-time
+          title: Expire At
+        signature:
+          type: string
+          title: Signature
+        quantity:
+          anyOf:
+            - type: number
+              exclusiveMinimum: 0
+            - type: string
+          title: Quantity
+        price:
+          anyOf:
+            - anyOf:
+                - type: number
+                - type: string
+              gt: 0
+            - type: 'null'
+          title: Price
+        market_type:
+          $ref: '#/components/schemas/MarketType'
+        order_side_type:
+          $ref: '#/components/schemas/OrderSideType'
+        order_class_type:
+          $ref: '#/components/schemas/OrderClassType'
+        customer_external_trace_id:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Customer External Trace Id
+      type: object
+      required:
+        - expire_at
+        - signature
+        - quantity
+        - market_type
+        - order_side_type
+        - order_class_type
+      title: TradingAPIOrderCommandInputDTOV1
+    TradingAPIOrdersTrade:
+      properties:
+        type:
+          $ref: '#/components/schemas/TradePositionType'
+        quantity:
+          type: string
+          title: Quantity
+        fee:
+          type: string
+          title: Fee
+        price:
+          type: string
+          title: Price
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+        - type
+        - quantity
+        - fee
+        - price
+        - created_at
+      title: TradingAPIOrdersTrade
+      description: Order's Trade DTO
+    TradingAPISearchMarketConfigsOutputDTOV1:
+      properties:
+        rules:
+          items:
+            $ref: '#/components/schemas/MarketConfigDTOV1'
+          type: array
+          title: Rules
+      type: object
+      required:
+        - rules
+      title: TradingAPISearchMarketConfigsOutputDTOV1
+    TradingAPISearchOrderOutputDTOV1:
+      properties:
+        order_id:
+          type: string
+          format: uuid
+          title: Order Id
+        symbol:
+          anyOf:
+            - $ref: '#/components/schemas/BaseMarketDTO'
+            - $ref: '#/components/schemas/MarketType'
+          title: Symbol
+        status:
+          $ref: '#/components/schemas/OrderDestinyType'
+        type:
+          $ref: '#/components/schemas/OrderClassType'
+        side:
+          $ref: '#/components/schemas/OrderSideType'
+        price:
+          type: string
+          title: Price
+        quantity:
+          type: string
+          title: Quantity
+        deal_quantity:
+          type: string
+          title: Deal Quantity
+        time_in_force:
+          $ref: '#/components/schemas/OrderTimeInForceType'
+        client_order_id:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Client Order Id
+        cancel_order_id:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: 'null'
+          title: Cancel Order Id
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+        - order_id
+        - symbol
+        - status
+        - type
+        - side
+        - price
+        - quantity
+        - deal_quantity
+        - time_in_force
+        - created_at
+        - updated_at
+      title: TradingAPISearchOrderOutputDTOV1
+    TradingAPISearchOrdersOutputDTOV1:
+      properties:
+        orders:
+          items:
+            $ref: '#/components/schemas/TradingAPISearchOrderOutputDTOV1'
+          type: array
+          title: Orders
+        total_count:
+          type: integer
+          minimum: 0
+          title: Total Count
+      type: object
+      required:
+        - orders
+        - total_count
+      title: TradingAPISearchOrdersOutputDTOV1
+    TradingApiCreateCryptoWithdrawalInputDTOV1:
+      properties:
+        expire_at:
+          type: string
+          format: date-time
+          title: Expire At
+        customer_uuid:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: 'null'
+          title: Customer Uuid
+        account_uuid:
+          type: string
+          format: uuid
+          title: Account Uuid
+        network_currency_type:
+          $ref: '#/components/schemas/NetworkCurrencyType'
+        amount:
+          anyOf:
+            - type: number
+              minimum: 0
+            - type: string
+          title: Amount
+        destination_wallet_address:
+          type: string
+          title: Destination Wallet Address
+        external_trace_id:
+          type: string
+          title: External Trace Id
+      type: object
+      required:
+        - expire_at
+        - account_uuid
+        - network_currency_type
+        - amount
+        - destination_wallet_address
+        - external_trace_id
+      title: TradingApiCreateCryptoWithdrawalInputDTOV1
+    TradingApiCreateCryptoWithdrawalOutputDTOV1:
+      properties:
+        crypto_withdraw_uuid:
+          type: string
+          format: uuid
+          title: Crypto Withdraw Uuid
+      type: object
+      required:
+        - crypto_withdraw_uuid
+      title: TradingApiCreateCryptoWithdrawalOutputDTOV1
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+        - loc
+        - msg
+        - type
+      title: ValidationError
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: X-API-Key-Invex
